@@ -1,0 +1,14 @@
+html, body{
+    margin: 0;
+    padding: 0;
+    background-color: black;
+}
+
+#score_table{
+    #score{
+        margin: auto;
+        color: white;
+    }
+    text-align: center;
+    margin: auto;
+}
