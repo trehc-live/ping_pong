@@ -4,6 +4,10 @@ html, body{
     background-color: black;
 }
 
+canvas{
+    border: solid 2px gray;
+}
+
 #score_table{
     #score{
         margin: auto;
