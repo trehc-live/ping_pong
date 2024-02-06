@@ -26,16 +26,30 @@ class GameObject{
     
     ball_respawn(){
     	this.delete(this.x - this.xpluse, this.y - this.ypluse);
+    	this.xpluse = 4;
+    	this.ypluse = 1;
         this.x = canvas.width / 2;
-        this.y = math.random() * this.canvas.height;
+        this.y = Math.random() * this.canvas.height;
         this.spawn();
+    }
+    
+    speed_up(){
+    	if(ball.xpluse < 0){
+    		ball.xpluse = (ball.xpluse * -1) + 1/4;
+    		ball.ypluse -= 1/2;
+    	}
+    	else{
+    		ball.xpluse = (ball.xpluse * -1) - 1/4;
+    		ball.ypluse -= 1/2;
+    	}
+    	console.log(`ball speed - ${ball.xpluse}`);
     }
 }
 
 let canvas = document.getElementById("canvas");
 let ctx = canvas.getContext("2d");
 canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
+canvas.height = window.innerHeight - 36;
 let player1 = new GameObject(canvas, ctx, 40, 20, 80, 20, 'white', 0, 0);
 let player2 = new GameObject(canvas, ctx, canvas.width - 40, 20, 80, 20, 'white', 0, 0);
 let ball = new GameObject(canvas, ctx, canvas.width / 2, canvas.height / 2, 20, 20, 'white', 4, 1);
@@ -54,16 +68,18 @@ function refresh_score(){
 }
 
 function run_with_walls(){
-    ball.delete(ball.x - ball.xpluse, ball.y - ball.ypluse);
+    ball.delete(ball.x - ball.xpluse, ball.y - ball.ypluse);//have to fix the leaving steps
     ball.spawn();
     
-    console.log('ball moved')
+    //console.log('ball moved')
 
     if(ball.x <= player1.x + player1.width && ball.x + ball.width >= player1.x && ball.y >= player1.y && ball.y <= player1.y + player1.height){
-        ball.xpluse = -ball.xpluse;
+    	ball.speed_up();
+        //ball.xpluse = -ball.xpluse;
     }
     if((ball.x >= player2.x + player2.width || ball.x + ball.width >= player2.x) && ball.y >= player2.y && ball.y <= player2.y + player2.height){
-        ball.xpluse = -ball.xpluse;
+    	ball.speed_up();
+        //ball.xpluse = -ball.xpluse;
     }
     if (ball.x >= canvas.width - ball.height * 2){
         player1.score++;
